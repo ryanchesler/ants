@@ -1,4 +1,3 @@
-from unetr_pp.network_architecture.synapse.unetr_pp_synapse import UNETR_PP
 from transformers import UperNetForSemanticSegmentation
 from pytorch3dunet.unet3d.model import get_model
 from transformers import SegformerForSemanticSegmentation, SegformerModel
@@ -510,7 +509,7 @@ class Unet3D_Segformer_Jumbo(nn.Module):
         return output
     
 
-from unetr import UNETR
+# from unetr import UNETR
 class UNETR_Segformer(nn.Module):
     def __init__(self, cfg, dropout = .2):
         super().__init__()
@@ -781,7 +780,7 @@ class Unet3D_full3d(nn.Module):
     def forward(self, volume):
         output = self.model(volume)
         return output
-import timm_3d
+# import timm_3d
 class timm3d_efficientnet(nn.Module):
     def __init__(self, cfg):
         super().__init__()
