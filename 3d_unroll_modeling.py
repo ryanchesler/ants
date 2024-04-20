@@ -417,7 +417,7 @@ validation_coords = []
 #         coords = coords[-(len(coords)//2):]
 #         train_coords.append(coords)
 
-for coord_file in tqdm(glob.glob("/home/ryanc/kaggle/segment_arrays/*")):
+for coord_file in tqdm(glob.glob("segment_arrays/*")):
     coords = np.load(coord_file)
     
     x_diff = np.abs(np.diff(coords, axis = -2).reshape(-1, 3)[:, 0])
@@ -431,12 +431,12 @@ for coord_file in tqdm(glob.glob("/home/ryanc/kaggle/segment_arrays/*")):
     print(coords.size)
         
 print(len(train_coords), len(validation_coords))
-training_dataset = CustomDataset(volume_path="/data/volume_compressed.hdf5", labels=None, cfg=CFG,
+training_dataset = CustomDataset(volume_path="volume_compressed.hdf5", labels=None, cfg=CFG,
                                  transform=None, mode="train", size = 100000, coords=train_coords, check_counts=True)
 sampler = torch.utils.data.RandomSampler(training_dataset, replacement=False, num_samples=10000)
 train_loader = DataLoader(training_dataset, batch_size=CFG.train_batch_size, shuffle=False, num_workers=32, pin_memory=False, drop_last=True, sampler=sampler)
 
-valid_dataset = CustomDataset(volume_path="/data/volume_compressed.hdf5", labels=None, cfg=CFG, transform=None, size = 1000, coords=validation_coords)
+valid_dataset = CustomDataset(volume_path="volume_compressed.hdf5", labels=None, cfg=CFG, transform=None, size = 1000, coords=validation_coords)
 valid_sampler = torch.utils.data.RandomSampler(valid_dataset, replacement=True, num_samples=1000)
 valid_loader = DataLoader(valid_dataset, batch_size=CFG.train_batch_size, shuffle=False, num_workers=32, pin_memory=False, drop_last=True, sampler=valid_sampler)
 cfg_pairs = {value:CFG.__dict__[value] for value in dir(CFG) if value[1] != "_"}
